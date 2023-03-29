@@ -4,9 +4,9 @@ import tqdm
 import torch
 import argparse
 import numpy as np
-from mtts.utils.stft import TacotronSTFT
+from utils.stft import TacotronSTFT
 from scipy.io.wavfile import read
-from mtts.utils.logging import get_logger
+from utils.logging import get_logger
 import librosa
 import yaml
 logger = get_logger(__file__)
