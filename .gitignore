@@ -1,0 +1,9 @@
+# ALl log files
+*.log
+
+# data dump files
+feats/
+tmp/
+__pycache__/
+docs/
+Vocoders/

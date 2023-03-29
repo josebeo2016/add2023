@@ -1,0 +1,31 @@
+# lfcc, lfcc_padded_64600
+fs: 16000
+num_ceps: 20
+pre_emph: 0
+pre_emph_coeff: 0.97
+win_len: 0.030
+win_hop: 0.015
+win_type: "hamming"
+nfilts: 70
+nfft: 1024
+low_freq: null
+high_freq: null
+scale: "constant"
+dct_type: 2
+normalize: 0
+
+# lfcc_padded_64000_trim
+# fs: 16000
+# num_ceps: 20
+# pre_emph: 0
+# pre_emph_coeff: 0.97
+# win_len: 0.5
+# win_hop: 0.25
+# win_type: "hamming"
+# nfilts: 30
+# nfft: 1024
+# low_freq: null
+# high_freq: null
+# scale: "constant"
+# dct_type: 2
+# normalize: 0

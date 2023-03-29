@@ -1,0 +1,21 @@
+# lpc_padded_64600
+# fs: 16000
+# num_ceps: 13
+# pre_emph: 0
+# pre_emph_coeff: 0.97
+# win_type: "hann"
+# win_len: 0.025
+# win_hop: 0.01
+# do_rasta: True
+# dither: 1
+
+# lpc_small_64000
+fs: 16000
+num_ceps: 15
+pre_emph: 0
+pre_emph_coeff: 0.97
+win_type: "hann"
+win_len: 0.5
+win_hop: 0.25
+do_rasta: True
+dither: 1
