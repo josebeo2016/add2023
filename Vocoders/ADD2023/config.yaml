@@ -1,0 +1,33 @@
+fbank: # this is used for wav2mel.py
+  sample_rate: 22050
+  n_fft: 1024
+  hop_length: 256
+  win_length: 1024
+  max_wav_value: 32768.0
+  n_mels: 80
+  fmin: 0.0
+  fmax: 8000.0 # should be 11025 ?
+  mel_mean: -6.0304103
+
+
+vocoder:
+  type: Waveglow # choose one of the following
+  MelGAN:
+    checkpoint: checkpoints/melgan/melgan_ljspeech.pth
+    config: checkpoints/melgan/default.yaml
+    device: cuda:1
+  VocGan:
+    checkpoint: checkpoints/vctk_pretrained_model_3180.pt #~/checkpoints/ljspeech_29de09d_4000.pt
+    denoise: True
+    device: cuda:2
+  HiFiGAN:
+    checkpoint: checkpoints/VCTK_V3/generator_v3  # you need to download checkpoint and set the params here
+    device: cuda:3
+  Waveglow:
+    checkpoint:  checkpoints/waveglow_256channels_universal_v5_state_dict.pt
+    sigma: 1.0
+    denoiser_strength: 0.0 # try 0.1
+    device: cuda:2 #try cpu if out of memory
+
+synthesis:
+  normalize: True # normalize the sound volume

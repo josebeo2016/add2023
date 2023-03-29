@@ -1,0 +1,4 @@
+
+[submodule "tacotron2"]
+	path = tacotron2
+	url = https://github.com/ranchlai/tacotron2.git

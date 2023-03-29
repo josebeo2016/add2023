@@ -1,0 +1,10 @@
+librosa
+matplotlib
+numpy
+scipy
+tensorboardX
+torch==1.6.0
+tqdm
+pillow
+pyyaml
+torchaudio==0.6.0
