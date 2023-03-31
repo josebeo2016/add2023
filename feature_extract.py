@@ -20,7 +20,11 @@ logging.basicConfig(filename='running.log', level=logging.DEBUG, format='%(ascti
 # https://stackoverflow.com/questions/25553919/passing-multiple-parameters-to-pool-map-function-in-python
 
 def load_audio(path):
-    data, sample_rate = sf.read(path)
+    try:
+        data, sample_rate = sf.read(path)
+    except Exception as e:
+        logging.error("file {} cannot read with error: {}".format(path,e))
+        exit(0)
     if data.size == 0:
         logging.error("file {} has zero size".format(path))
         exit(0)

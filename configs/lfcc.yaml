@@ -1,4 +1,4 @@
-# lfcc, lfcc_padded_64600
+# lfcc_normal
 fs: 16000
 num_ceps: 20
 pre_emph: 0
@@ -14,7 +14,7 @@ scale: "constant"
 dct_type: 2
 normalize: 0
 
-# lfcc_padded_64000_trim
+# lfcc_short
 # fs: 16000
 # num_ceps: 20
 # pre_emph: 0

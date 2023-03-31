@@ -96,16 +96,7 @@ def parse_argument():
 
     mes = 'Feature output path'
     parser.add_argument('--output_path', type=str, default="",required=True, help=mes)
-    
-    mes = 'Padding length in number of samples, should be > 16000'
-    parser.add_argument('--pad_length', type=int, default=64600, help=mes)
-    
-    mes = 'Trim non-speech segments'
-    parser.add_argument('--trim', action="store_true", help=mes)
-    
-    mes = 'Type of feature: [lfcc, mfcc, wav2vec2] '
-    parser.add_argument('--feature_type', type=str, default="lfcc", help=mes)
-    
+
     
     ##===================================================Rawboost data augmentation ======================================================================#
 
