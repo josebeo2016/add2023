@@ -11,22 +11,32 @@ from RawBoost import ISD_additive_noise,LnL_convolutive_noise,SSI_additive_noise
 from random import randrange
 import torch
 from torch_audiomentations import Compose, AddBackgroundNoise, PolarityInversion
+from pydub import AudioSegment
+import random
 
+def add_noise(audio_file_path, noise_file_path):
+    # Load audio files
+    audio_file = AudioSegment.from_file(audio_file_path)
+    noise_file = AudioSegment.from_file(noise_file_path)
+
+    # Set the desired SNR (signal-to-noise ratio) level in decibels
+    SNR_dB = 10
+
+    # Calculate the power of the signal and noise
+    signal_power = audio_file.dBFS
+    noise_power = noise_file.dBFS
+
+    # Calculate the scaling factor for the noise
+    scaling_factor = 10 ** ((signal_power - SNR_dB - noise_power) / 20)
+
+    # Apply the noise to the audio file
+    augmented_audio = audio_file.overlay(noise_file - random.uniform(0.0, 1.0) * 0.05 * noise_file.dBFS, position=0)
+    
+    return augmented_audio
 
 # Set up logging
 logging.basicConfig(filename='running.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
-
-# augmentation model config
-transform = AddBackgroundNoise(
-    sounds_path="/path/to/folder_with_sound_files",
-    min_snr_in_db=3.0,
-    max_snr_in_db=30.0,
-    noise_transform=PolarityInversion(),
-    p=1.0
-)
-
-torch_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def parse_argument():
     parser = argparse.ArgumentParser(
@@ -56,7 +66,10 @@ def addnoise(args, filename):
     out_file = os.path.join(args.output_path, filename)
     X,fs = librosa.load(in_file, sr=16000) 
     
-    Y=process_Rawboost_feature(X,fs,args,args.algo)
+    augmented_audio = add_noise(in_file,"pink_noise.wav")
+    # Export the augmented audio file
+    augmented_audio.export('augmented_audio.wav', format='wav')
+    
     # save to path
     sf.write(out_file, Y, fs, subtype='PCM_24')
 
