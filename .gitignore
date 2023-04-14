@@ -7,3 +7,9 @@ tmp/
 __pycache__/
 docs/
 Vocoders/checkpoints/*
+pretrained_model_checkpoints/
+pretrained_models/
+fairseq/
+# audios
+*.wav
+*.flac
