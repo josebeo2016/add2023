@@ -13,3 +13,6 @@ fairseq/
 # audios
 *.wav
 *.flac
+
+# OOD
+OOD/data/

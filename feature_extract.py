@@ -89,6 +89,9 @@ def parse_argument():
     
     mes = 'Resample to target sample rate'
     parser.add_argument('--resample', type=int, default=0, help=mes)
+    
+    mes = 'set the max len without padding'
+    parser.add_argument('--maxlen', type=int, default=0, help=mes)
 
     # load argument
     args = parser.parse_args()
@@ -126,6 +129,10 @@ def extract_feat(args, filename):
     #         trimed_audio = np.concatenate((trimed_audio, data[start:end]))
     #     data = trimed_audio
 
+    if (args.maxlen > 16000):
+        data_len = data.shape[0]
+        if data_len >= args.maxlen:
+            data = data[:args.maxlen]
     
     if (args.pad_length > 16000):
         data_size = data.shape[0]
@@ -136,7 +143,7 @@ def extract_feat(args, filename):
     
     if (args.feature_type == "wav"):
         feat_file = os.path.join(args.output_path, filename)
-        sf.write(feat_file, data, fs, subtype='PCM_24')
+        sf.write(feat_file, data, fs, subtype='PCM_16')
         return
     # if (args.feature_type == "wav2vec"):
     #     feat = wav2vec2(data=data, sr=fs).detach().cpu().numpy()
@@ -184,6 +191,8 @@ def main():
         parser1 = yaml.safe_load(f_yaml)
         vars(args).update(parser1)
     filenames = os.listdir(args.input_path)
+    if not os.path.exists(args.output_path):
+        os.mkdir(args.output_path)
     num_files = len(filenames)
     if(args.feature_type in ["lfcc", "lpc", "mfcc", "wav"]):
         func = partial(extract_feat, args)

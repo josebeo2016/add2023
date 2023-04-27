@@ -48,7 +48,7 @@ def denoise(args, filename):
     data, rate = sf.read(fpath)
     audioDenoiser = nr.reduce_noise(y = data, sr=rate, n_std_thresh_stationary=1.5,stationary=True)
     # save to path
-    sf.write(out_file, audioDenoiser, rate, subtype='PCM_24')
+    sf.write(out_file, audioDenoiser, rate, subtype='PCM_16')
 
 
 def main():
