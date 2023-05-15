@@ -16,3 +16,6 @@ fairseq/
 
 # OOD
 OOD/data/
+
+# noise
+Multi-Condition/musan/
