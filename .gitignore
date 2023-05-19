@@ -13,9 +13,16 @@ fairseq/
 # audios
 *.wav
 *.flac
+*.mp3
+*.m4a
+*.ogg
 
 # OOD
 OOD/data/
 
 # noise
 Multi-Condition/musan/
+
+# python packages
+*.egg-info/
+.pytest_cache/
