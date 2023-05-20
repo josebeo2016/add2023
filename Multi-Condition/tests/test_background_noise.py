@@ -14,4 +14,5 @@ def test_run():
     bga = BackgroundNoiseAugmentor(SAMPLE_WAV, CONFIG)
     bga.run()
     assert os.path.exists(os.path.join(CONFIG["output_path"], bga.file_name +"."+ CONFIG["out_format"]))
+    os.remove(os.path.join(CONFIG["output_path"], bga.file_name +"."+ CONFIG["out_format"]))
     

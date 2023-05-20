@@ -3,10 +3,16 @@ from .utils import recursive_list_files
 from pydub import AudioSegment
 import random
 import numpy as np
-import os
 
 class BackgroundNoiseAugmentor(BaseAugmentor):
     def __init__(self, input_path, config):
+        """
+        Background noise augmentation
+        Config:
+        noise_path: str, path to the folder containing noise files
+        min_SNR_dB: int, min SNR in dB
+        max_SNR_dB: int, max SNR in dB
+        """
         super().__init__(input_path, config)
         self.noise_path = config["noise_path"]
         self.noise_list = self.select_noise(self.noise_path)
@@ -47,9 +53,6 @@ class BackgroundNoiseAugmentor(BaseAugmentor):
         scaled_audio = self.audio_data.apply_gain(scaling_factor)
         self.augmented_audio = scaled_audio.overlay(noise_file)
         
-    
-    def save(self):
-        self.augmented_audio.export(os.path.join(self.output_path,self.file_name +"."+ self.out_format), format=self.out_format)
         
     
     

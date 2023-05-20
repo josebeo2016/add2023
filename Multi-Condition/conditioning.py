@@ -7,12 +7,15 @@ from functools import partial
 import logging
 import librosa
 import soundfile as sf
-from RawBoost import ISD_additive_noise,LnL_convolutive_noise,SSI_additive_noise,normWav
 from random import randrange
 import torch
 from torch_audiomentations import Compose, AddBackgroundNoise, PolarityInversion
 from pydub import AudioSegment
 import random
+
+from audio_augmentor import BackgroundNoiseAugmentor
+from audio_augmentor import SUPPORTED_AUGMENTORS
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def add_noise(audio_file_path, noise_file_path, min_SNR_dB=0, max_SNR_dB=20):
     # Load audio files
@@ -50,7 +53,7 @@ def parse_argument():
     
     parser.add_argument('--output_path', type=str, default="",required=True, help='Feature output path')
 
-    parser.add_argument('--aug_type', type=str, default="env_noise", required=True, help='Augmentation type.\n'
+    parser.add_argument('--aug_type', type=str, default="background_noise", required=True, help='Augmentation type.\n'
                         +'Suported: background_noise, pitch, speed, volume, reverb, compression, time_stretch, pitch_shift')
 
     # env_noise
@@ -77,15 +80,16 @@ def select_noise(noise_path):
 def background_noise(args, filename):
     # load audio:
     in_file = os.path.join(args.input_path, filename)
-    out_file = os.path.join(args.output_path, filename)
-
-    noise_sample = select_noise(args.noise_path)
-    augmented_audio = add_noise(in_file,noise_sample)
-    # Export the augmented audio file
-    augmented_audio.export(out_file, format='flac')
-    
-    # save to path
-    # sf.write(out_file, Y, fs, subtype='PCM_16')
+    config = {
+        "aug_type": "background_noise",
+        "output_path": args.output_path,
+        "out_format": "flac",
+        "noise_path": args.noise_path,
+        "min_SNR_dB": -10,
+        "max_SNR_dB": -5
+    }
+    bga = BackgroundNoiseAugmentor(in_file, config)
+    bga.run()
 
 
 def main():
@@ -97,7 +101,7 @@ def main():
     if not os.path.exists(args.output_path):
         os.mkdir(args.output_path)
     
-    func = partial(args.aug_type, args)
+    func = partial(globals()[args.aug_type], args)
     with Pool(processes=args.thread) as p:
         with tqdm(total=num_files) as pbar:
             for _ in p.imap_unordered(func, filenames):
